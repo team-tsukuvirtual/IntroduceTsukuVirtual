@@ -13,9 +13,6 @@
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="styles/webvr.css">
     <script src="lib/telemetry.js"></script>
-    <script type="text/javascript">
-        alert("スマホ非推奨");
-    </script>
     <script>
         MozillaResearch.telemetry.start({
             analytics: true,
@@ -26,7 +23,7 @@
     </script>
     <script src="Build/UnityLoader.js"></script>
 
-    <script type="text/javascript">
+    <script>
         function request_permission() {
             if (
                 DeviceMotionEvent &&
@@ -47,7 +44,7 @@
     <button onclick="request_permission()">センサーを有効にします</button>
     <script>
 
-
+        alert("スマホ非対応");
         /* global UnityLoader, MozillaResearch */
         MozillaResearch.telemetry.performance.measure('LoaderParsing', 'LoaderParsingStart');
         (function () {
