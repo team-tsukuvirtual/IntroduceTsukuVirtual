@@ -22,8 +22,8 @@
         MozillaResearch.telemetry.performance.mark('LoaderParsingStart');
     </script>
     <script src="Build/UnityLoader.js"></script>
-    <script>
 
+    <script>
         function request_permission() {
             if (
                 DeviceMotionEvent &&
@@ -40,7 +40,11 @@
                 DeviceOrientationEvent.requestPermission();
             }
         }
-        <button onclick="request_permission()">センサーを有効にします</button>
+    </script>
+    <button onclick="request_permission()">センサーを有効にします</button>
+    <script>
+
+
         /* global UnityLoader, MozillaResearch */
         MozillaResearch.telemetry.performance.measure('LoaderParsing', 'LoaderParsingStart');
         (function () {
