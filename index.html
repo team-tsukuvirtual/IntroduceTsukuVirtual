@@ -24,46 +24,50 @@
     <script src="Build/UnityLoader.js"></script>
     <script>
 
-        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-            // iOS 13+
-            popupOpen("requestPermissionPopup");
-        } else {
-            // non iOS 13+
-            window.addEventListener("deviceorientation",
-
-                /* global UnityLoader, MozillaResearch */
-                MozillaResearch.telemetry.performance.measure('LoaderParsing', 'LoaderParsingStart');
-            (function () {
-                UnityLoader.SystemInfo.mobile = false;  // Workaround to force `UnityLoader` to actually load on mobile.
-                MozillaResearch.telemetry.performance.mark('LoadingStart');
-                window.gameInstance = UnityLoader.instantiate('gameContainer', 'Build/IntroduceTsukuVirtual.json', {
-                    Module: {
-                        // `preserveDrawingBuffer` is needed for WebVR content to be mirrored to the `<canvas>`.
-                        webglContextAttributes: {
-                            preserveDrawingBuffer: true
-                        }
-                    },
-                    onProgress: unityProgress
-                });
-
-                function unityProgress(gameInstance, progress) {
-                    if (!gameInstance.progress) {
-                        gameInstance.loader = document.getElementById('loader');
-                        gameInstance.progress = document.getElementById('progress');
-                        gameInstance.loading = document.getElementById('loading');
-                        document.dispatchEvent(new CustomEvent('UnityProgressStart'));
-                    }
-                    gameInstance.progress.style.width = (100 * progress) + '%';
-                    if (progress === 1) {
-                        document.dispatchEvent(new CustomEvent('UnityLoaded'));
-                    }
-                }
-            })();
-
-
-            );
+        function request_permission() {
+            if (
+                DeviceMotionEvent &&
+                DeviceMotionEvent.requestPermission &&
+                typeof DeviceMotionEvent.requestPermission === 'function'
+            ) {
+                DeviceMotionEvent.requestPermission();
+            }
+            if (
+                DeviceOrientationEvent &&
+                DeviceOrientationEvent.requestPermission &&
+                typeof DeviceOrientationEvent.requestPermission === 'function'
+            ) {
+                DeviceOrientationEvent.requestPermission();
+            }
         }
-        
+        /* global UnityLoader, MozillaResearch */
+        MozillaResearch.telemetry.performance.measure('LoaderParsing', 'LoaderParsingStart');
+        (function () {
+            UnityLoader.SystemInfo.mobile = false;  // Workaround to force `UnityLoader` to actually load on mobile.
+            MozillaResearch.telemetry.performance.mark('LoadingStart');
+            window.gameInstance = UnityLoader.instantiate('gameContainer', 'Build/IntroduceTsukuVirtual.json', {
+                Module: {
+                    // `preserveDrawingBuffer` is needed for WebVR content to be mirrored to the `<canvas>`.
+                    webglContextAttributes: {
+                        preserveDrawingBuffer: true
+                    }
+                },
+                onProgress: unityProgress
+            });
+
+            function unityProgress(gameInstance, progress) {
+                if (!gameInstance.progress) {
+                    gameInstance.loader = document.getElementById('loader');
+                    gameInstance.progress = document.getElementById('progress');
+                    gameInstance.loading = document.getElementById('loading');
+                    document.dispatchEvent(new CustomEvent('UnityProgressStart'));
+                }
+                gameInstance.progress.style.width = (100 * progress) + '%';
+                if (progress === 1) {
+                    document.dispatchEvent(new CustomEvent('UnityLoaded'));
+                }
+            }
+        })();
     </script>
     <link rel="manifest" href="manifest.webmanifest">
 </head>
